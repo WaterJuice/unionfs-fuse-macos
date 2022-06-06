@@ -6,7 +6,7 @@ INCLUDE (CheckIncludeFiles)
 # Set a default build type for single-configuration
 # CMake generators if no build type is set.
 IF(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
-	SET(CMAKE_BUILD_TYPE RelWithDebInfo)
+	SET(CMAKE_BUILD_TYPE Release)
 ENDIF(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
 
 # Select flags.
@@ -16,7 +16,12 @@ SET(CMAKE_C_FLAGS_RELEASE "-O2")
 SET(CMAKE_C_FLAGS_DEBUG "-O0 -g -DDEBUG")
 
 if (UNIX AND APPLE)
-  include_directories("/usr/local/include/osxfuse/fuse")
+	include_directories( /usr/local/include/ )
+	link_directories( /usr/local/lib/ )
+	add_compile_options( -Wno-unused-parameter )
+	add_compile_options( -Wno-macro-redefined )
+	add_compile_options( -Wno-tautological-overlap-compare )
+	set(CMAKE_OSX_ARCHITECTURES arm64;x86_64)
 endif()
 
 add_definitions(-D_FILE_OFFSET_BITS=64 -DFUSE_USE_VERSION=26)
